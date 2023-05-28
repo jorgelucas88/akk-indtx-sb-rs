@@ -1,0 +1,114 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <preConditions>
+        <runningAs username="sa"/>
+    </preConditions>
+
+    <changeSet id="1" author="Jorge Brandao" created="2023-05-27-04-26">
+        <comment>Initial table and data setup</comment>
+        <createTable tableName="brands">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(512)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <insert tableName="brands">
+            <column name="name" value="ZARA"/>
+        </insert>
+
+        <createTable tableName="products">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(512)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <insert tableName="products">
+            <column name="id" value="35455" />
+            <column name="name" value="35455"/>
+        </insert>
+
+        <createTable tableName="prices">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="brand_id" type="INT">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_date" type="TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_date" type="TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="price_list" type="INT" />
+            <column name="product_id" type="INT" />
+            <column name="priority" type="INT" />
+            <column name="price" type="NUMERIC(20,2)" />
+            <column name="curr" type="ENUM('EUR', 'DOL')" />
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_brand"
+                                 baseTableName="prices" baseColumnNames="brand_id"
+                                 referencedTableName="brands" referencedColumnNames="id" />
+        <addForeignKeyConstraint constraintName="fk_product"
+                                 baseTableName="prices" baseColumnNames="product_id"
+                                 referencedTableName="products" referencedColumnNames="id" />
+
+        <insert tableName="prices">
+            <column name="BRAND_ID" valueComputed="(SELECT ID FROM BRANDS WHERE UPPER(NAME) = 'ZARA')" />
+            <column name="START_DATE" value="2020-06-14 00.00.00" />
+            <column name="END_DATE" value="2020-12-31 23.59.59" />
+            <column name="PRICE_LIST" value="1" />
+            <column name="PRODUCT_ID" value="35455" />
+            <column name="PRIORITY" value="0" />
+            <column name="PRICE" value="35.50" />
+            <column name="CURR" value="EUR" />
+        </insert>
+
+        <insert tableName="prices">
+            <column name="BRAND_ID" valueComputed="(SELECT ID FROM BRANDS WHERE UPPER(NAME) = 'ZARA')" />
+            <column name="START_DATE" value="2020-06-14 15.00.00" />
+            <column name="END_DATE" value="2020-06-14 18.30.00" />
+            <column name="PRICE_LIST" value="2" />
+            <column name="PRODUCT_ID" value="35455" />
+            <column name="PRIORITY" value="1" />
+            <column name="PRICE" value="25.45" />
+            <column name="CURR" value="EUR" />
+        </insert>
+
+        <insert tableName="prices">
+            <column name="BRAND_ID" valueComputed="(SELECT ID FROM BRANDS WHERE UPPER(NAME) = 'ZARA')" />
+            <column name="START_DATE" value="2020-06-15 00.00.00" />
+            <column name="END_DATE" value="2020-06-15 11.00.00" />
+            <column name="PRICE_LIST" value="3" />
+            <column name="PRODUCT_ID" value="35455" />
+            <column name="PRIORITY" value="1" />
+            <column name="PRICE" value="30.50" />
+            <column name="CURR" value="EUR" />
+        </insert>
+
+        <insert tableName="prices">
+            <column name="BRAND_ID" valueComputed="(SELECT ID FROM BRANDS WHERE UPPER(NAME) = 'ZARA')" />
+            <column name="START_DATE" value="2020-06-15 16.00.00" />
+            <column name="END_DATE" value="2020-12-31 23.59.59" />
+            <column name="PRICE_LIST" value="4" />
+            <column name="PRODUCT_ID" value="35455" />
+            <column name="PRIORITY" value="1" />
+            <column name="PRICE" value="38.95" />
+            <column name="CURR" value="EUR" />
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
